@@ -1,0 +1,27 @@
+generator client {
+ provider = "prisma-client-js"
+}
+datasource db {
+ provider = "sqlite"
+ url = env("DATABASE_URL")
+}
+model Session {
+ id String @id @default(cuid())
+ name String
+ company String
+ role String
+ jobDescription String
+ resumeText String
+ resumeFileName String
+ createdAt DateTime @default(now())
+ answers Answer[]
+}
+model Answer {
+ id String @id @default(cuid())
+ sessionId String
+ question String
+ content String
+ style String
+ createdAt DateTime @default(now())
+ session Session @relation(fields:[sessionId], references:[id], onDelete:Cascade)
+}
